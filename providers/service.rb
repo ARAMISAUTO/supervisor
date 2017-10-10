@@ -145,7 +145,7 @@ def get_current_state(service_name)
 end
 
 def load_current_resource
-  @current_resource = Chef::Resource::SupervisorService.new(@new_resource.name)
+  @current_resource = Chef::ResourceResolver.resolve(:supervisor_service).new(@new_resource.name)
   @current_resource.state = get_current_state(@new_resource.name)
 end
 
