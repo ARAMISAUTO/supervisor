@@ -20,6 +20,7 @@
 # Install
 python_runtime 'supervisor' do
   version '2'
+  provider :system
 end
 
 # foodcritic FC023: we prefer not having the resource on non-smartos
@@ -89,7 +90,7 @@ when "amazon", "centos", "debian", "fedora", "redhat", "ubuntu", "raspbian"
     variables({
       # TODO: use this variable in the debian platform-family template
       # instead of altering the PATH and calling "which supervisord".
-      :supervisord => "/usr/local/bin/supervisord"
+      :supervisord => "/usr/bin/supervisord"
     })
   end
 
