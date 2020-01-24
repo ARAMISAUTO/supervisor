@@ -145,8 +145,14 @@ def get_current_state(service_name)
 end
 
 def load_current_resource
-  @current_resource = Chef::Resource::SupervisorService.new(@new_resource.name)
-  @current_resource.state = get_current_state(@new_resource.name)
+  if Chef::VERSION.start_with?('12')
+    @current_resource = Chef::Resource::SupervisorService.new(@new_resource.name)
+    @current_resource.state = get_current_state(@new_resource.name)
+  else
+    @current_resource = run_context.resource_collection.lookup("supervisor_service[#{new_resource.name}]") rescue nil
+    @current_resource.state = get_current_state(@new_resource.name)
+  end
+
 end
 
 def wait_til_state(state,max_tries=20)
